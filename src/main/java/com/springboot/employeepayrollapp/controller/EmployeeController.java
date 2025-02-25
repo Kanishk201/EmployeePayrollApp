@@ -1,6 +1,5 @@
 package com.springboot.employeepayrollapp.controller;
 
-import com.springboot.employeepayrollapp.dto.EmployeeDTO;
 import com.springboot.employeepayrollapp.model.Employee;
 import com.springboot.employeepayrollapp.service.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,12 +25,12 @@ public class EmployeeController {
     }
 
     @PostMapping
-    public Employee createEmployee(@RequestBody EmployeeDTO employeeDTO) {
-        return employeeService.createEmployee(employeeDTO);
+    public Employee createEmployee(@RequestBody Employee employee) {
+        return employeeService.addEmployee(employee);
     }
 
     @PutMapping("/{id}")
-    public Employee updateEmployee(@PathVariable Long id, @RequestBody EmployeeDTO updatedEmployee) {
+    public Employee updateEmployee(@PathVariable Long id, @RequestBody Employee updatedEmployee) {
         return employeeService.updateEmployee(id, updatedEmployee);
     }
 

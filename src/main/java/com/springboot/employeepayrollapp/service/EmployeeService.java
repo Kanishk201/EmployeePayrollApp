@@ -1,46 +1,48 @@
 package com.springboot.employeepayrollapp.service;
 
-import com.springboot.employeepayrollapp.dto.EmployeeDTO;
 import com.springboot.employeepayrollapp.model.Employee;
-import com.springboot.employeepayrollapp.repository.EmployeeRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class EmployeeService {
+    private final List<Employee> employees = new ArrayList<>();
+    private Long nextId = 1L; // To simulate auto-increment ID
 
-    private final EmployeeRepository employeeRepository;
-
-    @Autowired
-    public EmployeeService(EmployeeRepository employeeRepository) {
-        this.employeeRepository = employeeRepository;
-    }
-
+    // Get all employees
     public List<Employee> getAllEmployees() {
-        return employeeRepository.findAll();
+        return employees;
     }
 
-    public Employee createEmployee(EmployeeDTO employeeDTO) {
-        Employee employee = new Employee();
-        employee.setName(employeeDTO.getName());
-        employee.setSalary(employeeDTO.getSalary());
-        return employeeRepository.save(employee);
+    // Add a new employee
+    public Employee addEmployee(Employee employee) {
+        employee.setId(nextId++); // Simulate DB ID assignment
+        employees.add(employee);
+        return employee;
     }
 
-    public Employee updateEmployee(Long id, EmployeeDTO updatedEmployee) {
-        return employeeRepository.findById(id)
-                .map(employee -> {
-                    employee.setName(updatedEmployee.getName());
-                    employee.setSalary(updatedEmployee.getSalary());
-                    return employeeRepository.save(employee);
-                })
-                .orElseThrow(() -> new RuntimeException("Employee not found"));
+    // Update an existing employee
+    public Employee updateEmployee(Long id, Employee updatedEmployee) {
+        Optional<Employee> existingEmployee = employees.stream()
+                .filter(emp -> emp.getId().equals(id))
+                .findFirst();
+
+        if (existingEmployee.isPresent()) {
+            Employee emp = existingEmployee.get();
+            emp.setName(updatedEmployee.getName());
+            emp.setDepartment(updatedEmployee.getDepartment());
+            emp.setSalary(updatedEmployee.getSalary());
+            return emp;
+        } else {
+            throw new RuntimeException("Employee not found");
+        }
     }
 
+    // Delete an employee
     public void deleteEmployee(Long id) {
-        employeeRepository.deleteById(id);
+        employees.removeIf(emp -> emp.getId().equals(id));
     }
 }
-
