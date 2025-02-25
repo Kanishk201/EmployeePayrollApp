@@ -5,21 +5,19 @@ import lombok.*;
 
 @Entity
 @Getter @Setter @NoArgsConstructor @AllArgsConstructor
+@RequiredArgsConstructor
 @Table(name = "employees")
 public class Employee {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NonNull
     private String name;
     private String department;
+    @NonNull
     private Double salary;
 
-    public Employee(String name, Double salary) {
-        this.name = name;
-        this.salary = salary;
-        this.department = "Unknown"; // Default for now
-    }
 
     public Long getId() {
         return id;
