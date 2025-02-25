@@ -1,5 +1,6 @@
 package com.springboot.employeepayrollapp.controller;
 
+import com.springboot.employeepayrollapp.dto.EmployeeDTO;
 import com.springboot.employeepayrollapp.model.Employee;
 import com.springboot.employeepayrollapp.repository.EmployeeRepository;
 import org.springframework.http.ResponseEntity;
@@ -79,5 +80,28 @@ public class EmployeeController {
     public ResponseEntity<Void> deleteAllEmployees() {
         employeeRepository.deleteAll();
         return ResponseEntity.noContent().build();
+    }
+
+    //UC3 - Handle EmployeeDTO separately with a unique endpoint
+    // POST - Create employee (DTO used)
+
+    @PostMapping("/dto")
+    public ResponseEntity<EmployeeDTO> createEmployee(@RequestBody EmployeeDTO employeeDTO) {
+        Employee employee = new Employee(employeeDTO.getName(), employeeDTO.getSalary());
+        Employee savedEmployee = employeeRepository.save(employee);
+        return ResponseEntity.ok(new EmployeeDTO(savedEmployee.getName(), savedEmployee.getSalary()));
+    }
+
+    // PUT - Update employee (DTO used)
+    @PutMapping("dto/{id}")
+    public ResponseEntity<EmployeeDTO> updateEmployee(@PathVariable Long id, @RequestBody EmployeeDTO updatedDTO) {
+        return employeeRepository.findById(id)
+                .map(employee -> {
+                    employee.setName(updatedDTO.getName());
+                    employee.setSalary(updatedDTO.getSalary());
+                    Employee updatedEmployee = employeeRepository.save(employee);
+                    return ResponseEntity.ok(new EmployeeDTO(updatedEmployee.getName(), updatedEmployee.getSalary()));
+                })
+                .orElseGet(() -> ResponseEntity.notFound().build());
     }
 }

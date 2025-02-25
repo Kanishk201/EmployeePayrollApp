@@ -15,6 +15,12 @@ public class Employee {
     private String department;
     private Double salary;
 
+    public Employee(String name, Double salary) {
+        this.name = name;
+        this.salary = salary;
+        this.department = "Unknown"; // Default for now
+    }
+
     public Long getId() {
         return id;
     }
