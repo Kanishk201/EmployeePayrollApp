@@ -14,7 +14,7 @@ public class Employee {
 
     @NonNull
     private String name;
-    private String department;
+
     @NonNull
     private Double salary;
 
@@ -35,13 +35,7 @@ public class Employee {
         this.name = name;
     }
 
-    public String getDepartment() {
-        return department;
-    }
 
-    public void setDepartment(String department) {
-        this.department = department;
-    }
 
     public Double getSalary() {
         return salary;
