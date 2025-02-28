@@ -1,7 +1,9 @@
 package com.springboot.employeepayrollapp.service;
 
+import com.springboot.employeepayrollapp.dto.EmployeeDTO;
 import com.springboot.employeepayrollapp.model.Employee;
 import com.springboot.employeepayrollapp.repository.EmployeeRepository;
+import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -27,13 +29,18 @@ public class EmployeeService {
     }
 
     // Add a new employee
-    public Employee addEmployee(Employee employee) {
-        log.info("Saving employee: {}", employee);
-        return employeeRepository.save(employee);
+    public Employee addEmployee(EmployeeDTO employeeDTO) {
+        Employee employee = new Employee();
+        employee.setName(employeeDTO.getName());
+        employee.setSalary(employeeDTO.getSalary());
+
+        Employee savedEmployee = employeeRepository.save(employee);
+        log.info("Added new employee: {}", savedEmployee);
+        return savedEmployee;
     }
 
     // Update an existing employee
-    public Employee updateEmployee(Long id, Employee updatedEmployee) {
+    public Employee updateEmployee(Long id, @Valid EmployeeDTO updatedEmployee) {
         log.debug("Updating employee with id: {}", id);
         Optional<Employee> existingEmployee = employeeRepository.findById(id);
 
