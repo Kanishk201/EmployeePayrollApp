@@ -27,7 +27,7 @@ public class Employee {
     private String gender;
 
     @NonNull
-    private LocalDate startDate;
+    private  LocalDate startDate;
 
     private String note;
     private String profilePic;
