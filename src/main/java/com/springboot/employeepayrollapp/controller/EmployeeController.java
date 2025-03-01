@@ -46,4 +46,9 @@ public class EmployeeController {
         log.info("Updating employee with ID: {}", id);
         return employeeService.updateEmployee(id, updatedEmployee);
     }
+
+    @GetMapping("/department/sales")
+    public List<Employee> getSalesEmployees() {
+        return employeeService.getEmployeesFromSalesDepartment();
+    }
 }
