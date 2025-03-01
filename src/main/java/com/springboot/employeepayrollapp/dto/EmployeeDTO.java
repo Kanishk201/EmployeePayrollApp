@@ -1,20 +1,14 @@
 package com.springboot.employeepayrollapp.dto;
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.AllArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-
-import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.Pattern;
-import jakarta.validation.constraints.Size;
+import lombok.*;
+import jakarta.validation.constraints.*;
+import java.time.LocalDate;
+import java.util.List;
 
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Slf4j
 public class EmployeeDTO {
 
     @NotEmpty(message = "Name is required")
@@ -22,5 +16,19 @@ public class EmployeeDTO {
     @Pattern(regexp = "^[A-Za-z ]+$", message = "Name must contain only letters and spaces")
     private String name;
 
+    @NotNull(message = "Salary is required")
     private Double salary;
+
+    @NotEmpty(message = "Gender is required")
+    @Pattern(regexp = "^(Male|Female|Other)$", message = "Gender must be Male, Female, or Other")
+    private String gender;
+
+    @NotNull(message = "Start date is required")
+    private LocalDate startDate;
+
+    private String note;
+    private String profilePic;
+
+    @NotEmpty(message = "Department is required")
+    private List<String> department;
 }

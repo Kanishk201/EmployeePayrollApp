@@ -2,12 +2,17 @@ package com.springboot.employeepayrollapp.model;
 
 import jakarta.persistence.*;
 import lombok.*;
+import java.time.LocalDate;
+import java.util.List;
 
 @Entity
-@Getter @Setter @NoArgsConstructor @AllArgsConstructor
-@RequiredArgsConstructor
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 @Table(name = "employees")
 public class Employee {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -18,30 +23,15 @@ public class Employee {
     @NonNull
     private Double salary;
 
+    @NonNull
+    private String gender;
 
-    public Long getId() {
-        return id;
-    }
+    @NonNull
+    private LocalDate startDate;
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+    private String note;
+    private String profilePic;
 
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-
-
-    public Double getSalary() {
-        return salary;
-    }
-
-    public void setSalary(Double salary) {
-        this.salary = salary;
-    }
+    @ElementCollection
+    private List<String> department;
 }
